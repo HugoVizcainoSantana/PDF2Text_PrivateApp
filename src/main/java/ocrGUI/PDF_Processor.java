@@ -16,22 +16,18 @@ public class PDF_Processor {
         System.setProperty("sun.java2d.cmm", "sun.java2d.cmm.kcms.KcmsServiceProvider");
     }
 
-    public static List<BufferedImage> toImageArray(File pdf) {
+    public static List<BufferedImage> toImageArray(PDDocument pdf,int firstPage, int lastPage) throws IOException {
         LinkedList<BufferedImage> images = new LinkedList<>();
-        try (final PDDocument document = PDDocument.load(pdf)) {
-            PDFRenderer pdfRenderer = new PDFRenderer(document);
-            /*for (int page = 0; page < document.getNumberOfPages(); ++page) {
-                System.out.println("Current Page:"+page);
-                images.add(pdfRenderer.renderImageWithDPI(page, 300, ImageType.RGB));
-            }*/
-            for (int page = 0; page < 5; ++page) {
-                System.out.println("Current Page:"+page);
-                images.add(pdfRenderer.renderImageWithDPI(page, 300, ImageType.RGB));
-            }
-            document.close();
-        } catch (IOException e) {
-            System.err.println("Exception while trying to convert pdf document - " + e);
+        PDFRenderer pdfRenderer = new PDFRenderer(pdf);
+        for (int page = firstPage-1; page < lastPage; ++page) {
+            System.out.println("Current Page:" + page);
+            images.add(pdfRenderer.renderImageWithDPI(page, 300, ImageType.RGB));
         }
+
         return images;
+    }
+
+    public static PDDocument toPDF(File file) throws IOException {
+        return PDDocument.load(file);
     }
 }

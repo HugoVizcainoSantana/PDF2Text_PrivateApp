@@ -12,7 +12,7 @@ repositories {
 dependencies {
     compile 'org.jsoup:jsoup:1.11.3'
     compile 'org.apache.pdfbox:pdfbox:2.0.11'
-    //compile 'com.levigo.jbig2:levigo-jbig2-imageio:2.0'
     compile files('libs/jbig2-imageio-3.0.2.jar')
+    compile 'org.bytedeco.javacpp-presets:tesseract-platform:4.0.0-beta.4-1.4.3-SNAPSHOT'
 
 }
