@@ -1,0 +1,18 @@
+group 'test.ocr'
+version '0.1'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.jsoup:jsoup:1.11.3'
+    compile 'org.apache.pdfbox:pdfbox:2.0.11'
+    //compile 'com.levigo.jbig2:levigo-jbig2-imageio:2.0'
+    compile files('libs/jbig2-imageio-3.0.2.jar')
+
+}

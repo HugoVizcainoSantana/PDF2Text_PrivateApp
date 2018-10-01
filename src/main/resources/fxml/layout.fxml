@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.*?>
+<BorderPane minHeight="600" minWidth="800" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ocrGUI.Controller">
+   <center>
+       <GridPane BorderPane.alignment="CENTER">
+           <columnConstraints>
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="600.0" prefWidth="900.0"/>
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" prefWidth="300.0"/>
+           </columnConstraints>
+           <rowConstraints>
+               <RowConstraints minHeight="600.0" prefHeight="600.0" vgrow="SOMETIMES"/>
+           </rowConstraints>
+           <ListView prefHeight="200.0" prefWidth="200.0" items="${controller.images}"/>
+           <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+               <Button mnemonicParsing="false" onAction="#addImage" text="Añadir Captura" textAlignment="CENTER" />
+               <Separator prefWidth="200.0"/>
+               <Button mnemonicParsing="false" onAction="#convertImages" text="Convertir Todo" textAlignment="CENTER" />
+           </VBox>
+       </GridPane>
+   </center>
+</BorderPane>
