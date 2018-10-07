@@ -9,6 +9,8 @@ public class Main extends Application {
     @Override
     public void start(Stage window) throws Exception{
         window.setTitle("Reconocimiento de Texto");
+        PDF_Processor.prepareEnviroment();
+        FilesHandler.createFolders();
         new SelectFile(window).show();
     }
 
