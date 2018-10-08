@@ -1,40 +1,53 @@
 package ocrGUI;
 
+import ocrGUI.model.AppImage;
+import ocrGUI.view.CustomProgressDialog;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.bytedeco.javacpp.BytePointer;
 import org.bytedeco.javacpp.tesseract;
 
-import java.awt.image.BufferedImage;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.bytedeco.javacpp.lept.*;
 
 public class PDF_Processor {
 
+    private static final JFileChooser fileChooser;
     private static tesseract.TessBaseAPI api;
 
     static {
+        fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("PDF files", "pdf"));
         System.setProperty("sun.java2d.cmm", "sun.java2d.cmm.kcms.KcmsServiceProvider");
     }
 
-    public static LinkedList<BufferedImage> toImageArray(PDDocument pdf, int firstPage, int lastPage) throws IOException {
-        LinkedList<BufferedImage> images = new LinkedList<>();
+    public static List<AppImage> toImageArray(PDDocument pdf, int firstPage, int lastPage, JFrame window) throws IOException {
+        CustomProgressDialog progressDialog = new CustomProgressDialog(window, "Procesando...", true, "Procesando Pagina... ", lastPage - firstPage + 1);
+        List<AppImage> images = new ArrayList<>(lastPage - firstPage);
         PDFRenderer pdfRenderer = new PDFRenderer(pdf);
-        for (int page = firstPage; page < lastPage; ++page) {
-            System.out.println("Current Page:" + page + " | PDF page for public is " + (page + 1));
-            images.add(pdfRenderer.renderImageWithDPI(page, 300, ImageType.RGB));
+        for (int currPage = firstPage; currPage <= lastPage; ++currPage) {
+            System.out.println("Current Page:" + currPage + " | PDF page for public is " + (currPage + 1));
+            progressDialog.updateProgress(currPage - firstPage + 1);
+            AppImage page = new AppImage(pdfRenderer.renderImageWithDPI(currPage, 300, ImageType.RGB), currPage);
+            images.add(page);
         }
-
+        progressDialog.setVisible(false);
+        progressDialog.dispose();
         return images;
     }
+
 
     public static PDDocument toPDF(File file) throws IOException {
         return PDDocument.load(file);
@@ -75,5 +88,21 @@ public class PDF_Processor {
                     "###############################");
             System.exit(1);
         }
+    }
+
+    static PDDocument selectPDF(JFrame window) {
+        if (fileChooser.showOpenDialog(window) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            System.out.println(file.getAbsolutePath());
+            try {
+                return toPDF(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+        } else {
+            System.exit(1);
+        }
+        return null;
     }
 }
