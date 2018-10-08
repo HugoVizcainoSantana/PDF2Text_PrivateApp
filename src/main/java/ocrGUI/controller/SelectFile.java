@@ -6,11 +6,9 @@ import javafx.stage.Stage;
 import ocrGUI.FilesHandler;
 import ocrGUI.PDF_Processor;
 import ocrGUI.util.AppScene;
-import ocrGUI.util.IntRange;
 import ocrGUI.view.RequestPage;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -52,12 +50,10 @@ public class SelectFile extends AppScene {
 
     private void processPDF(PDDocument pdf) {
         final Integer firstPage = new RequestPage(null,pdf.getNumberOfPages()).expectValue();
-        System.out.println("firstPage = " + firstPage);
         if (firstPage == null) {
             System.exit(0);
         }
-        final Integer lastPage = new RequestPage(firstPage,pdf.getNumberOfPages()).expectValue();
-        System.out.println("lastPage = " + lastPage);¡
+        Integer lastPage = new RequestPage(firstPage + 1, pdf.getNumberOfPages()).expectValue();
         if (lastPage == null) {
             System.exit(0);
         }
@@ -85,6 +81,7 @@ public class SelectFile extends AppScene {
         for (File image : images) {
             sb.append("Page ");
             sb.append(firstPage + counter);
+            sb.append(":\n");
             sb.append(PDF_Processor.imageToText(image));
             counter++;
         }

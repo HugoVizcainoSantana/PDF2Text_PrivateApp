@@ -3,3 +3,7 @@
 *.txt
 *.html
 *.gradle/
+out/
+tessdata/
+tmp/
+!src/*/**

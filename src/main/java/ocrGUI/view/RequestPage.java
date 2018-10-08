@@ -32,15 +32,20 @@ public class RequestPage  {
         //Center Panel
         JLabel labelRequest = new JLabel("### Default Text ###");
         SpinnerNumberModel spinnerRestrictions = new SpinnerNumberModel();
+        int initialValue;
         if (firstPage==null || firstPage==0) {
             labelRequest.setText("Introduzca la primera pagina a escanear");
             firstPage=0;
+            initialValue = firstPage;
         } else {
-            firstPage++;
+            initialValue = lastPage;
             labelRequest.setText("Introduzca la ultima pagina a escanear");
         }
+        //System.out.println("Setting up page request.");
+        //System.out.println("firstPage = " + firstPage);
+        //System.out.println("lastPage = " + lastPage);
         spinnerRestrictions.setMinimum(firstPage+1);
-        spinnerRestrictions.setValue(firstPage+1);
+        spinnerRestrictions.setValue(initialValue + 1);
         spinnerRestrictions.setMaximum(lastPage+1);
         spinnerPage = new JSpinner(spinnerRestrictions);
         JPanel spinnerContainer = new JPanel(new BorderLayout());

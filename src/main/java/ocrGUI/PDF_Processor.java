@@ -28,8 +28,8 @@ public class PDF_Processor {
     public static LinkedList<BufferedImage> toImageArray(PDDocument pdf, int firstPage, int lastPage) throws IOException {
         LinkedList<BufferedImage> images = new LinkedList<>();
         PDFRenderer pdfRenderer = new PDFRenderer(pdf);
-        for (int page = firstPage - 1; page < lastPage; ++page) {
-            System.out.println("Current Page:" + (page + 1));
+        for (int page = firstPage; page < lastPage; ++page) {
+            System.out.println("Current Page:" + page + " | PDF page for public is " + (page + 1));
             images.add(pdfRenderer.renderImageWithDPI(page, 300, ImageType.RGB));
         }
 
@@ -47,7 +47,7 @@ public class PDF_Processor {
         api.SetImage(pix);
 
         BytePointer ocrText = api.GetUTF8Text();
-        System.out.println("OCR output:\n" + ocrText.getString());
+        //System.out.println("OCR output:\n" + ocrText.getString());
         result = ocrText.getString();
         // Destroy used object and release memory
         api.Clear();

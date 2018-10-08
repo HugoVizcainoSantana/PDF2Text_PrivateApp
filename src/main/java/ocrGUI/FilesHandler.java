@@ -34,6 +34,7 @@ public class FilesHandler {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     static void createFolders() {
+        System.out.println("Created folders for execution");
         if (!TEMP_IMG_FOLDER.exists()) {
             TEMP_IMG_FOLDER.mkdir();
             TEMP_IMG_FOLDER.deleteOnExit();
