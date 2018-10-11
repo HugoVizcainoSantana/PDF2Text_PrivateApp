@@ -4,6 +4,6 @@
 *.html
 *.gradle/
 out/
-tessdata/
-tmp/
+/tessdata/
+/tmp/
 !src/*/**
