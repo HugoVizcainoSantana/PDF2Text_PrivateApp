@@ -12,14 +12,18 @@ public class CustomProgressDialog extends JDialog {
     private JProgressBar progressBar;
     private JLabel progressLabel;
 
-    public CustomProgressDialog(JFrame window, String title, boolean isModal, String progressText, int progressEnd) {
-        super(window, title, isModal);
+    public CustomProgressDialog(String title, boolean isModal, String progressText, int progressEnd) {
+        super((Frame) null, title, isModal);
         this.progressText = progressText;
         this.progressEnd = progressEnd;
+        JPanel panel = new JPanel(new BorderLayout());
         progressBar = new JProgressBar(0, progressEnd);
-        this.add(progressBar, BorderLayout.CENTER);
+        progressBar.setSize(350, 50);
+        panel.add(progressBar, BorderLayout.CENTER);
         progressLabel = new JLabel(progressText);
-        this.add(progressLabel, BorderLayout.NORTH);
+        panel.add(progressLabel, BorderLayout.NORTH);
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        this.add(panel);
         this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -27,10 +31,9 @@ public class CustomProgressDialog extends JDialog {
                 // Do Not Close
             }
         });
-        this.setLocationRelativeTo(window);
-        this.setBorder(new EmptyBorder(10, 10, 10, 10));
-
         this.pack();
+        this.setSize(Math.max(200, progressEnd), 100); // Make Dialog larger on larger progress
+        this.setLocationRelativeTo(null);
         SwingUtilities.invokeLater(() -> setVisible(true));
     }
 

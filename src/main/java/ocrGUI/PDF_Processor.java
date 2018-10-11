@@ -34,7 +34,7 @@ public class PDF_Processor {
     }
 
     public static List<AppImage> toImageArray(PDDocument pdf, int firstPage, int lastPage, JFrame window) throws IOException {
-        CustomProgressDialog progressDialog = new CustomProgressDialog(window, "Procesando...", true, "Procesando Pagina... ", lastPage - firstPage + 1);
+        CustomProgressDialog progressDialog = new CustomProgressDialog("Procesando...", true, "Procesando Pagina... ", lastPage - firstPage + 1);
         List<AppImage> images = new ArrayList<>(lastPage - firstPage);
         PDFRenderer pdfRenderer = new PDFRenderer(pdf);
         for (int currPage = firstPage; currPage <= lastPage; ++currPage) {

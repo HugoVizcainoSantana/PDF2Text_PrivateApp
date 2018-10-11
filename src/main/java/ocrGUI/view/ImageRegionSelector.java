@@ -26,10 +26,32 @@ public class ImageRegionSelector {
         //Right Panel
         JPanel regionsSelectedPanel = new JPanel();
         regionsSelectedPanel.add(new JList<AppImage>());
+        //Center panel
+        JPanel pagePanel = new JPanel();
+        pagePanel.add(new PageViewPanel(images));
         //Final build
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.add(pagelistPanel, BorderLayout.WEST);
-        mainPanel.add(regionsSelectedPanel, BorderLayout.EAST);
+        JPanel mainPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints c;
+        // Add left panel
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weightx = 0.2;
+        c.weighty = 1;
+        mainPanel.add(pagelistPanel, c);
+        // Add right panel
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 2;
+        c.gridy = 0;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weightx = 0.2;
+        c.weighty = 1;
+        mainPanel.add(regionsSelectedPanel, c);
         window.setContentPane(mainPanel);
         window.pack();
         window.setVisible(true);
