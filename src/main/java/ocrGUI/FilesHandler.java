@@ -1,5 +1,7 @@
 package ocrGUI;
 
+import ocrGUI.model.AppImage;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,12 +14,13 @@ public class FilesHandler {
     private static final File TEMP_IMG_FOLDER = Paths.get("tmp", "").toFile();
     private static final File OCR_DATA_FOLDER = Paths.get("tessdata", "").toFile();
 
-    public static List<File> saveImages(LinkedList<BufferedImage> images, int firstPage) {
+    public static List<File> saveImages(List<AppImage> images, int firstPage) {
         List<File> fileList = new LinkedList<>();
         int currPage = firstPage;
-        for (BufferedImage image : images) {
-            System.out.println("Saving page " + currPage);
-            File target = Paths.get("tmp", "Image-" + currPage + ".png").toFile();
+        for (AppImage appImage : images) {
+            BufferedImage image = appImage.getImage();
+            System.out.println("Saving page " + currPage + " | PDF page for public is " + (currPage + 1));
+            File target = Paths.get("tmp", "Image-" + (currPage + 1) + ".png").toFile();
             try {
                 ImageIO.write(image, "png", target);
                 target.deleteOnExit();

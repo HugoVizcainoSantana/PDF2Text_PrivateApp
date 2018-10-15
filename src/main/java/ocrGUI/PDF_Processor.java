@@ -59,12 +59,12 @@ public class PDF_Processor {
         PIX pix = pixRead(savedImg.getAbsolutePath());
         api.SetImage(pix);
 
-        BytePointer ocrText = api.GetUTF8Text();
-        //System.out.println("OCR output:\n" + ocrText.getString());
-        result = ocrText.getString();
-        // Destroy used object and release memory
-        api.Clear();
-        ocrText.close();
+        try (BytePointer ocrText = api.GetUTF8Text()) {
+            result = ocrText.getString();
+            System.out.println("OCR output:\n" + result);
+            // Destroy used object and release memory
+            api.Clear();
+        }
         pixDestroy(pix);
         return result;
     }

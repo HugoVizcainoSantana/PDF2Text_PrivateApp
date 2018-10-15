@@ -1,11 +1,11 @@
 package ocrGUI;
 
 import ocrGUI.model.AppImage;
-import ocrGUI.view.ImageRegionSelector;
 import ocrGUI.view.RequestPage;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
 import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -37,6 +37,15 @@ public class Main {
             e.printStackTrace();
             System.exit(-1);
         }
-        new ImageRegionSelector(window, images).show();
+        //new ImageRegionSelector(window, images).show();
+        List<File> files = FilesHandler.saveImages(images, firstPage);
+        StringBuilder sb = new StringBuilder();
+        int counter = firstPage;
+        for (File f : files) {
+            sb.append("\n\n Pagina " + counter);
+            sb.append(PDF_Processor.imageToText(f));
+            counter++;
+        }
+        sb.toString();
     }
 }
